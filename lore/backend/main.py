@@ -261,17 +261,15 @@ async def export_story(story_id: str, request: ExportRequest):
 async def serve_slides(story_id: str):
     path = f"exports/lore_slides_{story_id}.html"
     if os.path.exists(path):
-        with open(path) as f:
-            return HTMLResponse(f.read())
+        return FileResponse(path, media_type="text/html", filename=f"LORE_Interactive_Slides_{story_id}.html")
     return {"error": "Not found"}
 
 
 @app.get("/exports/{story_id}/docs")
 async def serve_docs(story_id: str):
-    path = f"exports/lore_guide_{story_id}.md"
+    path = f"exports/lore_guide_{story_id}.docx"
     if os.path.exists(path):
-        return FileResponse(path, media_type="text/markdown",
-                           filename=f"lore_study_guide.md")
+        return FileResponse(path, media_type="application/vnd.openxmlformats-officedocument.wordprocessingml.document", filename=f"LORE_Study_Guide_{story_id}.docx")
     return {"error": "Not found"}
 
 

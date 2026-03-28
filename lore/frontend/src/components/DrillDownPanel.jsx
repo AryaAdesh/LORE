@@ -19,7 +19,7 @@ export default function DrillDownPanel({ isOpen, streamUrl, onClose, parentChapt
   return (
     <div style={{
       position: 'fixed', right: 0, top: 0, bottom: 0,
-      width: 420, zIndex: 100,
+      width: 500, zIndex: 100,
       transform: isOpen ? 'translateX(0)' : 'translateX(100%)',
       transition: 'transform 420ms cubic-bezier(0.4, 0, 0.2, 1)',
       background: 'rgba(8, 8, 20, 0.96)',
@@ -56,8 +56,11 @@ export default function DrillDownPanel({ isOpen, streamUrl, onClose, parentChapt
         }}>✕</button>
       </div>
 
+      {/* Scrollable content body */}
+      <div style={{ flex: 1, overflowY: 'auto', display: 'flex', flexDirection: 'column' }} className="custom-scrollbar">
+
       {/* Image area — contained, not fixed */}
-      <div style={{ position: 'relative', height: 220, flexShrink: 0, background: '#0a0a14', overflow: 'hidden' }}>
+      <div style={{ position: 'relative', height: 260, flexShrink: 0, background: '#0a0a14', overflow: 'hidden' }}>
         {status === 'generating' && chapters.length === 0 && (
           <div style={{
             position: 'absolute', inset: 0, display: 'flex', flexDirection: 'column',
@@ -91,8 +94,8 @@ export default function DrillDownPanel({ isOpen, streamUrl, onClose, parentChapt
         {/* Chapter title overlay */}
         {currentChapter && (
           <div style={{
-            position: 'absolute', bottom: 10, left: 14, right: 14,
-            fontSize: 14, fontWeight: 700, color: 'white',
+            position: 'absolute', bottom: 12, left: 16, right: 16,
+            fontSize: 18, fontWeight: 700, color: 'white',
             textShadow: '0 1px 8px rgba(0,0,0,0.8)'
           }}>
             {currentChapter.title}
@@ -108,9 +111,9 @@ export default function DrillDownPanel({ isOpen, streamUrl, onClose, parentChapt
           flexShrink: 0
         }}>
           <div style={{
-            fontSize: 13, color: 'rgba(255,255,255,0.75)', lineHeight: 1.7,
-            maxHeight: 120, overflowY: 'auto'
-          }} className="custom-scrollbar">
+            fontSize: 15, color: 'rgba(255,255,255,0.85)', lineHeight: 1.7,
+            paddingBottom: 4
+          }}>
             {currentChapter.narration_script}
           </div>
           {/* TTS controls */}
@@ -132,21 +135,21 @@ export default function DrillDownPanel({ isOpen, streamUrl, onClose, parentChapt
       {/* Pin list */}
       {currentChapter?.pins?.length > 0 && (
         <div style={{ padding: '12px 18px', flexShrink: 0 }}>
-          <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 8 }}>
+          <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: 12 }}>
             Concepts
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
             {currentChapter.pins.slice(0, 3).map(pin => (
               <div key={pin.id} style={{
-                padding: '8px 12px',
+                padding: '12px 16px',
                 background: 'rgba(255,255,255,0.04)',
                 border: '1px solid rgba(255,255,255,0.08)',
-                borderRadius: 8, cursor: 'default'
+                borderRadius: 10, cursor: 'default'
               }}>
-                <div style={{ fontSize: 12, fontWeight: 600, color: 'rgba(167,139,250,0.9)', marginBottom: 2 }}>
+                <div style={{ fontSize: 14, fontWeight: 600, color: 'rgba(167,139,250,0.9)', marginBottom: 4 }}>
                   {pin.label}
                 </div>
-                <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.45)', lineHeight: 1.5 }}>
+                <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.6 }}>
                   {pin.teaser}
                 </div>
               </div>
@@ -154,6 +157,8 @@ export default function DrillDownPanel({ isOpen, streamUrl, onClose, parentChapt
           </div>
         </div>
       )}
+      
+      </div>
 
       {/* Chapter navigation for multi-chapter drilldowns */}
       {totalChapters > 1 && (

@@ -187,9 +187,9 @@ PERSONA_STYLES = {
 }
 
 PERSONA_VOICES = {
-    "documentary": "Charon",
+    "documentary": "Aoede",
     "excited": "Puck",
-    "poetic": "Charon",
+    "poetic": "Aoede",
     "child": "Kore",
     "myth": "Fenrir"
 }

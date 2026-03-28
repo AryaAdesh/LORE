@@ -9,22 +9,28 @@ export default function NarrationBar({
   onToggleLive,
   liveTranscript,
   liveError,
-  currentPersona
+  currentPersona,
+  onNarrationEnd // Pass this prop from StoryPlayer
 }) {
   // TTS runs whenever Gemini Live is not active — this is the fallback/primary for text+audio
   const { isSpeaking, pause, resume, charIndex } = useNarration(
     chapter?.narration_script,
     true,
-    !isLiveActive && !isLiveConnecting  // enable TTS whenever Live is off (error or not)
+    !isLiveActive && !isLiveConnecting,  // enable TTS whenever Live is off (error or not)
+    onNarrationEnd // Hook onto the onEnd event of the TTS to tell StoryPlayer to advance
   )
-
-  // Text to show: Live transcript streams in word-by-word, otherwise TTS charIndex slice
-  const visibleText = (isLiveActive && liveTranscript)
-    ? liveTranscript
-    : chapter?.narration_script?.slice(0, charIndex + 1) || ''
 
   return (
     <>
+      <div style={{
+        position: 'fixed',
+        bottom: 0, left: 0, right: 0,
+        height: 300,
+        background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%)',
+        zIndex: 39,
+        pointerEvents: 'none'
+      }} />
+      
       {/* ── Lower-third: bottom-left, text on gradient, no card ── */}
       <div style={{
         position: 'fixed',
@@ -37,11 +43,12 @@ export default function NarrationBar({
         {/* Persona + chapter label */}
         <div style={{
           fontSize: 11,
-          color: isLiveActive ? 'rgba(167,139,250,0.8)' : 'rgba(255,255,255,0.35)',
+          color: isLiveActive ? 'rgba(167,139,250,0.9)' : 'rgba(255,255,255,0.8)',
           letterSpacing: '0.12em',
           textTransform: 'uppercase',
           marginBottom: 6,
-          fontWeight: 500,
+          fontWeight: 600,
+          textShadow: '0 2px 4px rgba(0,0,0,0.8)',
           transition: 'color 0.4s ease'
         }}>
           {PERSONA_LABELS[currentPersona] || 'Documentary'} narrator
@@ -54,19 +61,18 @@ export default function NarrationBar({
 
         {/* Chapter title */}
         <div style={{
-          fontSize: 14,
-          color: 'rgba(255,255,255,0.55)',
-          fontWeight: 600,
+          fontSize: 24,
+          color: 'rgba(255,255,255,0.95)',
+          fontWeight: 700,
           letterSpacing: '0.02em',
-          marginBottom: 10
+          marginBottom: 10,
+          textShadow: '0 2px 4px rgba(0,0,0,0.8)'
         }}>
           {chapter?.title}
         </div>
 
-        {/* Narration text — word-by-word */}
         <div style={{
-          fontSize: 20,
-          color: 'white',
+          fontSize: 18,
           lineHeight: 1.55,
           fontWeight: 400,
           maxWidth: 580,
@@ -77,7 +83,18 @@ export default function NarrationBar({
             <span style={{ color: 'rgba(167,139,250,0.6)', fontSize: 16 }}>
               Preparing narrator...
             </span>
-          ) : visibleText}
+          ) : (isLiveActive && liveTranscript) ? (
+            <span style={{ color: 'white' }}>{liveTranscript}</span>
+          ) : (
+            <>
+              <span style={{ color: 'white' }}>
+                {chapter?.narration_script?.slice(0, Math.max(0, charIndex + 1))}
+              </span>
+              <span style={{ color: 'rgba(255, 255, 255, 0.4)', transition: 'color 0.1s ease' }}>
+                {chapter?.narration_script?.slice(Math.max(0, charIndex + 1))}
+              </span>
+            </>
+          )}
         </div>
       </div>
 
@@ -99,14 +116,15 @@ export default function NarrationBar({
               : 'rgba(0,0,0,0.5)',
             border: `1px solid ${isLiveActive
               ? 'rgba(124,106,247,0.6)'
-              : 'rgba(255,255,255,0.15)'}`,
-            color: isLiveActive ? '#c4b5fd' : 'rgba(255,255,255,0.5)',
-            borderRadius: 20,
-            padding: '7px 16px',
-            fontSize: 12, cursor: 'pointer',
+              : 'rgba(255,255,255,0.2)'}`,
+            color: isLiveActive ? '#c4b5fd' : 'white',
+            borderRadius: 8,
+            padding: '8px 16px',
+            fontSize: 13, cursor: 'pointer',
             backdropFilter: 'blur(12px)',
             display: 'flex', alignItems: 'center', gap: 7,
-            transition: 'all 0.2s ease'
+            transition: 'all 0.2s ease',
+            whiteSpace: 'nowrap'
           }}
         >
           <div style={{
@@ -127,12 +145,16 @@ export default function NarrationBar({
           <button
             onClick={isSpeaking ? pause : resume}
             style={{
-              background: 'rgba(0,0,0,0.4)',
-              border: '1px solid rgba(255,255,255,0.1)',
-              color: 'rgba(255,255,255,0.4)',
-              borderRadius: 20, padding: '5px 14px',
-              fontSize: 11, cursor: 'pointer',
-              backdropFilter: 'blur(8px)'
+              background: 'rgba(0,0,0,0.5)',
+              border: '1px solid rgba(255,255,255,0.2)',
+              color: 'white',
+              borderRadius: 8,
+              padding: '8px 16px',
+              fontSize: 13,
+              cursor: 'pointer',
+              backdropFilter: 'blur(12px)',
+              display: 'flex', alignItems: 'center', gap: 7,
+              whiteSpace: 'nowrap'
             }}
           >
             {isSpeaking ? '⏸ Pause' : '▶ Play'}

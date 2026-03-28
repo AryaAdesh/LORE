@@ -33,12 +33,12 @@ export default function ExportModal({ isOpen, storyId, storyTopic, onClose }) {
             <h3 className="text-xl font-bold text-white mb-2">Presentation Deck</h3>
             <p className="text-sm text-gray-400 mb-6 flex-1">Export scenes and narration as a visual slide deck.</p>
             {result?.export_type === 'slides' ? (
-              <a href={`http://localhost:8000${result.url}`} target="_blank" rel="noreferrer" className="w-full py-3 bg-green-600/20 text-green-400 border border-green-500/30 rounded-lg hover:bg-green-600/30 transition-colors block font-medium">
-                Open Slides ↗
+              <a href={`http://localhost:8000${result.url}`} download className="w-full py-3 bg-green-600/20 text-green-400 border border-green-500/30 rounded-lg hover:bg-green-600/30 transition-colors block font-medium">
+                Download Interactive Slides ↓
               </a>
             ) : (
               <button onClick={() => handleExport('slides')} disabled={loading} className="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-lg font-medium transition-colors disabled:opacity-50">
-                {loading === 'slides' ? 'Exporting...' : 'Export to Google Slides'}
+                {loading === 'slides' ? 'Generating...' : 'Download PowerPoint (.pptx)'}
               </button>
             )}
           </div>
@@ -49,11 +49,11 @@ export default function ExportModal({ isOpen, storyId, storyTopic, onClose }) {
             <p className="text-sm text-gray-400 mb-6 flex-1">Export a rich document with narration and drill-down concepts.</p>
             {result?.export_type === 'docs' ? (
               <a href={`http://localhost:8000${result.url}`} download className="w-full py-3 bg-green-600/20 text-green-400 border border-green-500/30 rounded-lg hover:bg-green-600/30 transition-colors block font-medium">
-                Download Markdown ↓
+                Download .docx ↓
               </a>
             ) : (
               <button onClick={() => handleExport('docs')} disabled={loading} className="w-full py-3 bg-purple-600 hover:bg-purple-500 text-white rounded-lg font-medium transition-colors disabled:opacity-50">
-                {loading === 'docs' ? 'Exporting...' : 'Export to Google Docs'}
+                {loading === 'docs' ? 'Generating...' : 'Download Document (.docx)'}
               </button>
             )}
           </div>

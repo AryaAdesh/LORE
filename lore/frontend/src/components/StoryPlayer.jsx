@@ -38,18 +38,9 @@ export default function StoryPlayer() {
   const { isActive: liveActive, isConnecting: liveConnecting, toggle: toggleLive, transcript: liveTranscript, error: liveError } =
     useGeminiLive(resolvedStoryId, currentChapter?.id, currentPersona, true)
 
-  // Auto-advance after narration ends (timer-based fallback)
-  useEffect(() => {
-    if (!currentChapter || liveActive || liveConnecting || showBranches) return
-    clearTimeout(autoAdvanceTimer.current)
-    const duration = (currentChapter.duration_seconds || 30) * 1000
-    autoAdvanceTimer.current = setTimeout(() => {
-      if (currentIndex < chapters.length - 1) {
-        setCurrentIndex(i => i + 1)
-      }
-    }, duration + 2000)
-    return () => clearTimeout(autoAdvanceTimer.current)
-  }, [currentIndex, currentChapter, liveActive, liveConnecting, showBranches, chapters.length])
+  // Auto-advance blind timer removed. We now rely exclusively on the TTS engine's onEnd event
+  // to organically transition to the next chapter.
+
 
   // Store storyId when stream resolves it
   useEffect(() => {
@@ -185,6 +176,7 @@ export default function StoryPlayer() {
         liveTranscript={liveTranscript}
         liveError={liveError}
         currentPersona={currentPersona}
+        onNarrationEnd={handleNarrationEnd}
       />
 
       {/* Branch selector */}
@@ -238,8 +230,11 @@ export default function StoryPlayer() {
           onStoryReplace={(newStreamUrl) => {
             useStoryStore.getState().setStreamUrl(newStreamUrl)
             setCurrentIndex(0)
+            setExtraChapters([])
             setShowPerspective(false)
-            window.location.reload()
+            // Navigate to /story/new which will pick up the new streamUrl from the store
+            // and start streaming the retold story. No page reload needed.
+            navigate('/story/new')
           }}
         />
       )}

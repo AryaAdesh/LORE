@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react';
 
 const MESSAGES = [
   "Planning your story arc...",
-  "Generating visuals...",
-  "Writing narration...",
-  "Placing spatial pins...",
+  "Crafting visuals for each scene...",
+  "Writing narration scripts...",
+  "Placing knowledge pins...",
+  "Polishing the experience...",
   "Almost ready..."
 ]
 
@@ -14,7 +15,7 @@ export default function LoadingCinematic({ chapters, totalChapters, status, onCo
   useEffect(() => {
     const interval = setInterval(() => {
       setMsgIndex(i => (i + 1) % MESSAGES.length)
-    }, 2200)
+    }, 2500)
     return () => clearInterval(interval)
   }, [])
 
@@ -30,57 +31,94 @@ export default function LoadingCinematic({ chapters, totalChapters, status, onCo
     <div style={{
       width: '100vw', height: '100vh',
       background: '#080810',
+      backgroundImage: 'radial-gradient(ellipse 110% 70% at 50% 50%, rgba(124,106,247,0.035) 0%, transparent 80%)',
       display: 'flex', flexDirection: 'column',
       alignItems: 'center', justifyContent: 'center',
-      position: 'fixed', inset: 0, zIndex: 200
+      position: 'fixed', inset: 0, zIndex: 200,
+      fontFamily: "'Inter', 'Google Sans', -apple-system, sans-serif"
     }}>
       {/* Progress bar */}
       <div style={{
-        position: 'absolute', top: 0, left: 0, right: 0, height: 2,
-        background: 'rgba(255,255,255,0.06)'
+        position: 'absolute', top: 0, left: 0, right: 0, height: 3,
+        background: 'rgba(255,255,255,0.04)'
       }}>
         <div style={{
           height: '100%',
           width: `${progress * 100}%`,
-          background: 'linear-gradient(90deg, #7c6af7, #a78bfa)',
-          transition: 'width 0.6s ease'
+          background: 'linear-gradient(90deg, #7c6af7, #a78bfa, #818cf8)',
+          transition: 'width 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
+          boxShadow: '0 0 12px rgba(124,106,247,0.4)'
         }} />
       </div>
 
       {/* LORE wordmark */}
       <div style={{
-        fontSize: 64, fontWeight: 700, letterSpacing: '0.15em',
-        background: 'linear-gradient(135deg, #ffffff 0%, #7c6af7 100%)',
+        fontSize: 72, fontWeight: 900, letterSpacing: '-0.03em',
+        background: 'linear-gradient(135deg, #a78bfa 0%, #818cf8 50%, #6366f1 100%)',
         WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-        marginBottom: 32
+        marginBottom: 40,
+        lineHeight: 1.1
       }}>
         LORE
       </div>
 
-      {/* Spinner */}
+      {/* Animated ring spinner */}
       <div style={{
-        width: 28, height: 28, borderRadius: '50%',
-        border: '2px solid rgba(124,106,247,0.2)',
+        width: 44, height: 44,
+        borderRadius: '50%',
+        border: '2px solid rgba(124,106,247,0.1)',
         borderTop: '2px solid #7c6af7',
-        animation: 'spin 0.8s linear infinite',
-        marginBottom: 24
+        animation: 'spin 1s linear infinite',
+        marginBottom: 32,
+        boxShadow: '0 0 16px rgba(124,106,247,0.15)'
       }} />
 
       {/* Status message */}
       <div style={{
-        fontSize: 14, color: 'rgba(255,255,255,0.5)',
-        letterSpacing: '0.05em', minHeight: 20,
-        animation: 'fade-in 0.4s ease'
+        fontSize: 15, color: 'rgba(255,255,255,0.45)',
+        letterSpacing: '0.04em', minHeight: 22,
+        fontWeight: 400,
+        transition: 'opacity 0.3s ease'
       }}>
-        {status === 'error' ? 'Something went wrong — please try again' : MESSAGES[msgIndex]}
+        {status === 'error' ? (
+          <span style={{ color: 'rgba(239,68,68,0.7)' }}>Something went wrong — please try again</span>
+        ) : MESSAGES[msgIndex]}
       </div>
 
-      {/* Chapter count */}
+      {/* Chapter progress */}
       {totalChapters > 0 && (
-        <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.25)', marginTop: 12 }}>
-          {chapters.length} of {totalChapters} chapters ready
+        <div style={{ marginTop: 24, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
+          <div style={{
+            fontSize: 12, color: 'rgba(255,255,255,0.2)',
+            letterSpacing: '0.1em', textTransform: 'uppercase',
+            fontWeight: 600
+          }}>
+            {chapters.length} of {totalChapters} chapters
+          </div>
+
+          {/* Chapter dots */}
+          <div style={{ display: 'flex', gap: 6 }}>
+            {Array.from({ length: totalChapters }).map((_, i) => (
+              <div key={i} style={{
+                width: i < chapters.length ? 24 : 8,
+                height: 8,
+                borderRadius: 4,
+                background: i < chapters.length
+                  ? 'linear-gradient(135deg, #7c6af7, #a78bfa)'
+                  : 'rgba(255,255,255,0.08)',
+                transition: 'all 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
+                boxShadow: i < chapters.length ? '0 0 8px rgba(124,106,247,0.3)' : 'none'
+              }} />
+            ))}
+          </div>
         </div>
       )}
+
+      <style>{`
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   )
 }
