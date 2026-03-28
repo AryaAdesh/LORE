@@ -44,7 +44,7 @@ export default function StoryPlayer() {
 
   // Store storyId when stream resolves it
   useEffect(() => {
-    if (streamStoryId && !storyId) setStoryId(streamStoryId)
+    if (streamStoryId) setStoryId(streamStoryId)
   }, [streamStoryId])
 
   // Called by NarrationBar when narration finishes
