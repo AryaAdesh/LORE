@@ -144,8 +144,6 @@ export default function LandingPage() {
         position: 'relative',
         overflow: 'hidden'
       }}
-      onDragOver={e => e.preventDefault()}
-      onDrop={handleDrop}
     >
 
       {/* Header */}
@@ -358,23 +356,22 @@ export default function LandingPage() {
         </div>
       </div>
 
-      {/* PDF drop zone */}
+      {/* Footer Quote */}
       <div style={{
-        marginTop: 36,
-        padding: '20px 32px',
-        borderRadius: 16,
-        border: '1px dashed rgba(255,255,255,0.1)',
-        background: 'rgba(255,255,255,0.015)',
-        color: 'rgba(255,255,255,0.3)',
-        fontSize: 13,
+        marginTop: 48,
+        padding: '0 32px',
+        color: 'rgba(255,255,255,0.4)',
+        fontSize: 14,
         textAlign: 'center',
         width: '100%',
         maxWidth: 640,
         position: 'relative',
         zIndex: 1,
-        transition: 'all 0.2s ease'
+        fontStyle: 'italic',
+        letterSpacing: '0.02em',
+        lineHeight: 1.6
       }}>
-        📄 Or drop a PDF here to narrate a document
+        "Deep down, we are all storytellers. LORE just gives us the engine to make those stories come alive."
       </div>
 
       {/* Keyframes */}
