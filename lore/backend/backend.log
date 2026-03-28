@@ -1,0 +1,27 @@
+INFO:     Will watch for changes in these directories: ['/Users/aryaadesh/Desktop/LORE/lore/backend']
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [24576] using WatchFiles
+/Users/aryaadesh/Desktop/LORE/lore/backend/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+INFO:     Started server process [24627]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:52785 - "OPTIONS /prompt/enrich HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52785 - "POST /prompt/enrich HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52798 - "OPTIONS /story/create HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52798 - "POST /story/create HTTP/1.1" 200 OK
+WARNING:  WatchFiles detected changes in 'services/vertex_client.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [24627]
+/Users/aryaadesh/Desktop/LORE/lore/backend/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+INFO:     Started server process [24713]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [24713]
+INFO:     Stopping reloader process [24576]
