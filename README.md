@@ -1,7 +1,5 @@
 # LORE — Live, Orchestrated, Reactive Encyclopaedia
 
-**Experience Knowledge. Don't Just Read It.**
-
 ### The Team
 Created with ❤️ at the NYU Google DSC Gemini Hackathon by:
 *   **Ritvik Vasantha Kumar** — [rv2459@nyu.edu](mailto:rv2459@nyu.edu) 
@@ -15,7 +13,7 @@ LORE is a next-generation **multimodal story engine** built for the NYU Google D
 
 ## The Vision: Beyond the Textbox
 
-Most AI interfaces are flat—a question followed by a static wall of text. **LORE is an experience that hears, speaks, sees, and creates.**
+Most AI interfaces are flat, a question followed by a static wall of text. **LORE is an experience that hears, speaks, sees, and creates.**
 
 By leveraging Gemini's native interleaved output capabilities, LORE weaves together:
 - **Cinematic Narration**: Real-time voiceovers with word-level synchronization and highlighting.
